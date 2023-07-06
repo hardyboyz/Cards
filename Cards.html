@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playing Cards - Tyrell Systems Test</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <h5 class="text-center mt-10">Tyrell System Playing Card</h5>
+    <div class="container">
+        <div class="form-group mb-2 mt-10 text-center">
+            <input type="number" class="" id="total_player" placeholder="Total Player" min="1">
+            <button type="submit" id="start" class="btn btn-primary mb-2">Start</button>
+        </div>
+        <div class="row">
+            <div id="player_list"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        
+        //$(document).ready(function(){
+
+            //When Start button clicked
+            $('#start').click(function(){
+                var total_player = parseInt($('#total_player').val());
+                //console.log(total_player)
+
+                //check if total player is empty for invalid value
+                if(isNaN(total_player) || total_player < 1) {
+                    swal('Input value does not exist or value is invalid');
+                    return;
+                }
+
+                $('#player_list').empty();
+
+                //Declare the cards
+                var suits = ['S', 'H', 'D', 'C'];
+                var ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'X', 'J', 'Q', 'K'];
+
+                var deck = [];
+                for (var i = 0; i < suits.length; i++) {
+                    for (var j = 0; j < ranks.length; j++) {
+                        var card = ranks[j] + suits[i];
+                        deck.push(card);
+                    }
+                }
+
+                //Randomize the cards distribution
+                randomize(deck);
+
+                var total_player = total_player;
+                var players = [];
+                for (var p = 0; p < total_player; p++) {
+                    players[p] = [];
+                }
+
+                var cardIndex = 0;
+                while (deck.length > 0) {
+                    var currentPlayer = cardIndex % total_player;
+                    players[currentPlayer].push(deck.pop());
+                    cardIndex++;
+                }
+
+                //display player cards
+                var playersElement = document.getElementById("player_list");
+                for (var p = 0; p < total_player; p++) {
+                    var playerElement = document.createElement("div");
+                        playerElement.style.float = "left";
+                        playerElement.style.padding = "10px";
+                    playerElement.innerHTML = "<p>Player " + (p + 1) + "</p>";
+                    for (var c = 0; c < players[p].length; c++) {
+                        var cardElement = document.createElement("div");
+                        cardElement.createTextNode = ",";
+                        cardElement.textContent = players[p][c];
+                        playerElement.appendChild(cardElement);
+                    }
+                    playersElement.appendChild(playerElement);
+                }
+            });
+
+
+            //function to randomize the card distribution
+            function randomize(data) {
+                var currentIndex = data.length;
+                var temporaryValue;
+                var randomIndex;
+
+                while (currentIndex !== 0) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+
+                    temporaryValue = data[currentIndex];
+                    data[currentIndex] = data[randomIndex];
+                    data[randomIndex] = temporaryValue;
+                }
+
+                return data;
+            }
+        //});         
+
+    </script>
+</body>
+</html>
