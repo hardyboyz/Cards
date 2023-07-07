@@ -4,6 +4,11 @@
     <title>Playing Cards - Tyrell Systems Test</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .comma::after {
+            content: ", "
+        }
+    </style>
 </head>
 <body>
     <h5 class="text-center mt-10">Tyrell System Playing Card</h5>
@@ -13,7 +18,7 @@
             <button type="submit" id="start" class="btn btn-primary mb-2">Start</button>
         </div>
         <div class="row">
-            <div id="player_list"></div>
+            <div id="player_list" class="text-center"></div>
         </div>
     </div>
 
@@ -52,7 +57,6 @@
                 //Randomize the cards distribution
                 randomize(deck);
 
-                var total_player = total_player;
                 var players = [];
                 for (var p = 0; p < total_player; p++) {
                     players[p] = [];
@@ -65,20 +69,20 @@
                     cardIndex++;
                 }
 
-                //display player cards
+                //distribute and display player cards
                 var playersElement = document.getElementById("player_list");
                 for (var p = 0; p < total_player; p++) {
                     var playerElement = document.createElement("div");
-                        playerElement.style.float = "left";
                         playerElement.style.padding = "10px";
-                    playerElement.innerHTML = "<p>Player " + (p + 1) + "</p>";
+                    playerElement.innerHTML = "Player " + (p + 1) + " : ";
                     for (var c = 0; c < players[p].length; c++) {
-                        var cardElement = document.createElement("div");
-                        cardElement.createTextNode = ",";
+                        var cardElement = document.createElement("span");
+                        cardElement.className = "comma";
                         cardElement.textContent = players[p][c];
                         playerElement.appendChild(cardElement);
                     }
                     playersElement.appendChild(playerElement);
+                    playerElement.innerHTML += "</p>";
                 }
             });
 
