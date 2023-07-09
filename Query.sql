@@ -2,7 +2,7 @@ SELECT Jobs.*, JobCategories.*, JobTypes.*, Jobs.id as Jobs__id
 
     # Field No need to aliased, and since all the columns are selected on the sample query, can just use *
 
-    # Jobs.id,
+    # Jobs.id AS `Jobs__id`,
     # Jobs.name AS `Jobs__name`,
     # Jobs.media_id AS `Jobs__media_id`,
     # Jobs.job_category_id AS `Jobs__job_category_id`,
